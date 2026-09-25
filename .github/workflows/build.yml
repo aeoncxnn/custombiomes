@@ -18,11 +18,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build with Gradle
-        working-directory: custombiomes
         run: gradle build --stacktrace
 
       - name: Upload Mod JAR
         uses: actions/upload-artifact@v4
         with:
           name: CustomBiomes-Mod-JAR
-          path: custombiomes/build/libs/*.jar
+          path: "**/build/libs/*.jar"
