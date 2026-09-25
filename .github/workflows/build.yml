@@ -17,14 +17,16 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Build with Gradle
+      - name: Find and Build
         run: |
-          if [ -f "build.gradle" ]; then
+          BUILD_FILE=$(find . -name "build.gradle" -print -quit)
+          if [ -n "$BUILD_FILE" ]; then
+            DIR=$(dirname "$BUILD_FILE")
+            echo "build.gradle şu dizinde bulundu: $DIR"
+            cd "$DIR"
             gradle build --stacktrace
-          elif [ -f "custombiomes/build.gradle" ]; then
-            cd custombiomes && gradle build --stacktrace
           else
-            echo "build.gradle bulunamadı!"
+            echo "HATA: Depoda hiç build.gradle dosyası yok!"
             exit 1
           fi
 
