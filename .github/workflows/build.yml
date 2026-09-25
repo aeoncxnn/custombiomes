@@ -1,21 +1,27 @@
 name: Build Mod Jar
-on: [push]
+on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+
       - name: Build with Gradle
-        run: gradle build
-      - name: Upload Artifact
+        run: gradle build --stacktrace
+
+      - name: Upload Mod JAR
         uses: actions/upload-artifact@v4
         with:
-          name: Mod-JAR
+          name: CustomBiomes-Mod-JAR
           path: build/libs/*.jar
